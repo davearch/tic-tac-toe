@@ -92,9 +92,19 @@ class Game extends React.Component {
       const desc = move ?
         'Go to move #' + move + ' (' + history[move].pos + ')' :
         'Go to game start';
+      function getStyle() {
+        if (history[move] === current) {
+          return { fontWeight: 'bold' }
+        }
+      }
       return (
         <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          <button 
+            onClick={() => this.jumpTo(move)}
+            style={getStyle()}
+          >
+            {desc}
+          </button>
         </li>
       );
     });
