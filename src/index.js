@@ -49,6 +49,7 @@ class Game extends React.Component {
     this.state = {
       history: [{
         squares: Array(9).fill(null),
+        pos: Array(2).fill(null),
       }],
       stepNumber: 0,
       xIsNext: true,
@@ -59,6 +60,7 @@ class Game extends React.Component {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
+    const pos = getPosition(i);
 
     if (calculateWinner(squares) || squares[i]) {
       return;
@@ -67,6 +69,7 @@ class Game extends React.Component {
     this.setState({
       history: history.concat([{
         squares: squares,
+        pos: pos,
       }]),
       stepNumber: history.length,
       xIsNext : !this.state.xIsNext,
@@ -87,7 +90,7 @@ class Game extends React.Component {
 
     const moves = history.map((step, move) => {
       const desc = move ?
-        'Go to move #' + move :
+        'Go to move #' + move + ' (' + history[move].pos + ')' :
         'Go to game start';
       return (
         <li key={move}>
@@ -116,6 +119,23 @@ class Game extends React.Component {
       </div>
     );
   }
+}
+
+function getPosition(pos) {
+  // 2D Matrix
+  const square = [
+    [0,1,2],
+    [3,4,5],
+    [6,7,8]
+  ];
+  for (var i = 0; i < square.length; i++) {
+    var index = square[i].indexOf(pos);
+    if (index > -1) {
+      return [index, i];
+    }
+  }
+  // if not found return 0
+  return 0;
 }
 
 function calculateWinner(squares) {
