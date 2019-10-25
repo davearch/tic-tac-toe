@@ -19,25 +19,30 @@ class Board extends React.Component {
       />
     );
   }
+  renderBoard() {
+    const boardRows = Array(3).fill(0);
+    const gen = generateSquareValues();
+    return (
+      <div>
+        {
+          boardRows.map((value,index) => {
+            return (
+              <div key={index} className="board-row">
+                {this.renderSquare(gen.next().value)}
+                {this.renderSquare(gen.next().value)}
+                {this.renderSquare(gen.next().value)}
+              </div>
+            );
+          })
+        }
+      </div>
+    );
+  }
 
   render() {
     return (
       <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+        {this.renderBoard()}
       </div>
     );
   }
@@ -131,6 +136,13 @@ class Game extends React.Component {
   }
 }
 
+function* generateSquareValues(){
+  yield* generateSequence(0,9);
+}
+
+function* generateSequence(start, end) {
+  for (let i = start; i <= end; i++) yield i;
+}
 function getPosition(pos) {
   // 2D Matrix
   const square = [
