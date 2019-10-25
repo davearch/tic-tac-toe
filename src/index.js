@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
+/**
+ * Square Component
+ */
 const Square = (props) => {
   return (
     <button className="square" onClick={props.onClick}>
@@ -10,6 +13,9 @@ const Square = (props) => {
   );
 }
 
+/**
+ * Board Component
+ */
 class Board extends React.Component {
   renderSquare(i) {
     return (
@@ -38,7 +44,6 @@ class Board extends React.Component {
       </div>
     );
   }
-
   render() {
     return (
       <div>
@@ -48,6 +53,9 @@ class Board extends React.Component {
   }
 }
 
+/**
+ * Game Component
+ */
 class Game extends React.Component {
   constructor(props) {
     super(props);
@@ -80,14 +88,12 @@ class Game extends React.Component {
       xIsNext : !this.state.xIsNext,
     });
   }
-
   jumpTo(step) {
     this.setState({
       stepNumber: step,
       xIsNext: (step % 2) === 0,
     });
   }
-
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
@@ -97,7 +103,7 @@ class Game extends React.Component {
       const desc = move ?
         'Go to move #' + move + ' (' + history[move].pos + ')' :
         'Go to game start';
-      function getStyle() {
+      const getStyle = () => {
         if (history[move] === current) {
           return { fontWeight: 'bold' }
         }
@@ -136,6 +142,9 @@ class Game extends React.Component {
   }
 }
 
+/**
+ * Utility Functions
+ */
 function* generateSquareValues(){
   yield* generateSequence(0,9);
 }
@@ -143,6 +152,7 @@ function* generateSquareValues(){
 function* generateSequence(start, end) {
   for (let i = start; i <= end; i++) yield i;
 }
+
 function getPosition(pos) {
   // 2D Matrix
   const square = [
