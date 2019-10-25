@@ -21,16 +21,16 @@ class Board extends React.Component {
   }
   renderBoard() {
     const boardRows = [...Array(3).keys()]
-    const gen = generateSquareValues();
+    const squareValueGenerator = generateSquareValues();
     return (
       <div>
         {
           boardRows.map((value) => {
             return (
               <div key={value} className="board-row">
-                {this.renderSquare(gen.next().value)}
-                {this.renderSquare(gen.next().value)}
-                {this.renderSquare(gen.next().value)}
+                {this.renderSquare(squareValueGenerator.next().value)}
+                {this.renderSquare(squareValueGenerator.next().value)}
+                {this.renderSquare(squareValueGenerator.next().value)}
               </div>
             );
           })
