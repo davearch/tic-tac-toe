@@ -66,9 +66,9 @@ class Game extends React.Component {
       }],
       stepNumber: 0,
       xIsNext: true,
+      forwardOrder: true,
     }
   }
-
   handleClick(i) {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
@@ -94,17 +94,25 @@ class Game extends React.Component {
       xIsNext: (step % 2) === 0,
     });
   }
+  toggleOrder() {
+    this.setState({
+      forwardOrder: !this.state.forwardOrder,
+    });
+  }
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
+    const forwardOrder = this.state.forwardOrder;
 
-    const moves = history.map((step, move) => {
+    const orderedHistory = forwardOrder ? history : history.reverse();
+    
+    const moves = orderedHistory.map((step, move) => {
       const desc = move ?
-        'Go to move #' + move + ' (' + history[move].pos + ')' :
+        'Go to move #' + move + ' (' + step.pos + ')' :
         'Go to game start';
       const getStyle = () => {
-        if (history[move] === current) {
+        if (step === current) {
           return { fontWeight: 'bold' }
         }
       }
@@ -136,6 +144,8 @@ class Game extends React.Component {
         <div className="game-info">
           <div>{status}</div>
           <ol>{moves}</ol>
+          <button onClick={() => this.toggleOrder()}>Toggle Order</button>
+          <p>Ascending order: {this.state.forwardOrder.toString()}</p>
         </div>
       </div>
     );
